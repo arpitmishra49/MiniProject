@@ -42,3 +42,14 @@ body {
     color: green;
   }
   
+  #searchInput {
+    width: 300px;
+    max-width: 90%;
+    margin: 0 auto 20px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  
