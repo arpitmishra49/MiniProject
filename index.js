@@ -12,7 +12,6 @@ fetch("https://dummyjson.com/products")
       card.innerHTML = `
         <img src="${product.thumbnail}" alt="${product.title}">
         <h3>${product.title}</h3>
-        <p>${product.description.substring(0, 60)}...</p>
         <p class="price">$${product.price}</p>
       `;
 
