@@ -36,6 +36,10 @@ function displayProducts(products) {
     `;
 
     container.appendChild(card);
+    card.addEventListener("click",()=>{
+      console.log("Card clicked ",product.id);
+      window.location.href=`product.html?id=${product.id}`;
+    })
   });
 }
 
