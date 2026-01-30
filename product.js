@@ -41,6 +41,11 @@ function renderProduct(product) {
         <p class="discount">Discount: ${product.discountPercentage}%</p>
         <p class="rating">Rating: ⭐ ${product.rating}</p>
         <p class="stock">Stock Available: ${product.stock}</p>
+        <p class="Weight">Weight: ${product.weight}</p>
+        <p class="Warranty:">Warranty: ${product.warrantyInformation}</p>
+        <p class="Shipping:">Warranty: ${product.shippingInformation}</p>
+         <p class="Minimum-Order:">Minimum Order Quantity: ${product.minimumOrderQuantity}</p>
+       
       </div>
     </div>
   `;
