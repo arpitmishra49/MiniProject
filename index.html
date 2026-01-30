@@ -9,14 +9,21 @@
 <body>
 
   <h1>Product List</h1>
-  <input 
-  type="text" 
-  id="searchInput" 
-  placeholder="Search products..." 
-/>
 
-<div id="product-container" class="container"></div>
+  <div class="search-bar">
+    <input 
+      type="text" 
+      id="searchInput" 
+      placeholder="Search products..." 
+    />
+    <button onclick="handleSearch()">Search</button>
+    <button onclick="clearHistory()">Clear Search History</button>
+  </div>
 
+  <h3>Search History</h3>
+  <div id="search-history"></div>
+
+  <div id="product-container" class="container"></div>
 
   <script src="index.js"></script>
 </body>

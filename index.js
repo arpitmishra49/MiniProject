@@ -1,7 +1,10 @@
 const container = document.getElementById("product-container");
 const searchInput = document.getElementById("searchInput");
+const historyContainer = document.getElementById("search-history");
 
 let allProducts = [];
+let searchHistory = [];
+
 
 fetch("https://dummyjson.com/products")
   .then(res => res.json())
@@ -9,9 +12,10 @@ fetch("https://dummyjson.com/products")
     allProducts = data.products;
     displayProducts(allProducts);
   })
-  .catch(err => {
+  .catch(() => {
     container.innerHTML = "<p>Failed to load products</p>";
   });
+
 
 function displayProducts(products) {
   container.innerHTML = "";
@@ -36,13 +40,51 @@ function displayProducts(products) {
 }
 
 
-searchInput.addEventListener("input", () => {
-  const searchValue = searchInput.value.toLowerCase();
-
+function filterProducts(searchValue) {
   const filteredProducts = allProducts.filter(product =>
     product.title.toLowerCase().includes(searchValue) ||
     product.description.toLowerCase().includes(searchValue)
   );
 
   displayProducts(filteredProducts);
-});
+}
+
+
+function handleSearch() {
+  const searchValue = searchInput.value.toLowerCase().trim();
+  if (!searchValue) return;
+
+  filterProducts(searchValue);
+  addToHistory(searchValue);
+}
+
+
+function addToHistory(term) {
+  if (searchHistory.includes(term)) return;
+
+  searchHistory.push(term);
+  renderHistory();
+}
+
+function renderHistory() {
+  historyContainer.innerHTML = "";
+
+  searchHistory.forEach(term => {
+    const btn = document.createElement("button");
+    btn.textContent = term;
+    btn.className = "history-item";
+
+    btn.onclick = () => {
+      searchInput.value = term;
+      filterProducts(term);
+    };
+
+    historyContainer.appendChild(btn);
+  });
+}
+
+
+function clearHistory() {
+  searchHistory = [];
+  historyContainer.innerHTML = "";
+}
