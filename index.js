@@ -3,7 +3,7 @@ const searchInput = document.getElementById("searchInput");
 const historyContainer = document.getElementById("search-history");
 
 let allProducts = [];
-let searchHistory = [];
+let searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
 
 
 fetch("https://dummyjson.com/products")
@@ -11,6 +11,7 @@ fetch("https://dummyjson.com/products")
   .then(data => {
     allProducts = data.products;
     displayProducts(allProducts);
+    renderHistory(); // render saved history on load
   })
   .catch(() => {
     container.innerHTML = "<p>Failed to load products</p>";
@@ -36,10 +37,10 @@ function displayProducts(products) {
     `;
 
     container.appendChild(card);
-    card.addEventListener("click",()=>{
-      console.log("Card clicked ",product.id);
-      window.location.href=`product.html?id=${product.id}`;
-    })
+
+    card.addEventListener("click", () => {
+      window.location.href = `product.html?id=${product.id}`;
+    });
   });
 }
 
@@ -67,8 +68,10 @@ function addToHistory(term) {
   if (searchHistory.includes(term)) return;
 
   searchHistory.push(term);
+  localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
   renderHistory();
 }
+
 
 function renderHistory() {
   historyContainer.innerHTML = "";
@@ -90,5 +93,6 @@ function renderHistory() {
 
 function clearHistory() {
   searchHistory = [];
+  localStorage.removeItem("searchHistory");
   historyContainer.innerHTML = "";
 }
