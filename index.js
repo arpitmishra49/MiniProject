@@ -13,7 +13,7 @@ let searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
 let currentPage = 1;
 const itemsPerPage = 8;
 
-/* FETCH PRODUCTS */
+
 fetch("https://dummyjson.com/products")
   .then(res => res.json())
   .then(data => {
@@ -25,14 +25,14 @@ fetch("https://dummyjson.com/products")
     container.innerHTML = "<p>Failed to load products</p>";
   });
 
-/* DISPLAY PRODUCTS (INIT PAGINATION) */
+
 function displayProducts(products) {
   currentProducts = products;
   currentPage = 1;
   renderPage();
 }
 
-/* RENDER PAGE */
+
 function renderPage() {
   container.innerHTML = "";
 
@@ -56,6 +56,7 @@ function renderPage() {
     `;
 
     card.onclick = () => {
+      saveViewedProduct(product);
       window.location.href = `product.html?id=${product.id}`;
     };
 
@@ -65,7 +66,7 @@ function renderPage() {
   updatePagination();
 }
 
-/* PAGINATION CONTROLS */
+
 function updatePagination() {
   const totalPages = Math.ceil(currentProducts.length / itemsPerPage);
   pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
@@ -89,7 +90,7 @@ nextBtn.onclick = () => {
   }
 };
 
-/* SEARCH */
+
 function handleSearch() {
   const value = searchInput.value.toLowerCase().trim();
   if (!value) return;
@@ -103,7 +104,7 @@ function handleSearch() {
   addToHistory(value);
 }
 
-/* SEARCH HISTORY */
+
 function addToHistory(term) {
   if (searchHistory.includes(term)) return;
 
@@ -134,3 +135,22 @@ function clearHistory() {
   localStorage.removeItem("searchHistory");
   historyContainer.innerHTML = "";
 }
+function saveViewedProduct(product) {
+  let viewed = JSON.parse(localStorage.getItem("viewedProducts")) || [];
+
+  // remove duplicate if already viewed
+  viewed = viewed.filter(p => p.id !== product.id);
+
+  viewed.unshift({
+    id: product.id,
+    title: product.title,
+    price: product.price,
+    thumbnail: product.thumbnail
+  });
+
+  // keep only last 10 viewed products
+  viewed = viewed.slice(0, 10);
+
+  localStorage.setItem("viewedProducts", JSON.stringify(viewed));
+}
+
